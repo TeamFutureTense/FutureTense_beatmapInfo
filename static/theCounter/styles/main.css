@@ -12,7 +12,7 @@
 
 :root {
   --border-radius: 7px;
-  --container-height: 35px;
+  --container-height: fit-content;
   --unit-display-padding: 10px;
 }
 
@@ -20,7 +20,7 @@ html {
   margin: 0;
   padding: 0;
   color: white;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 1);
   font-family: 'octarine';
 }
 
@@ -38,58 +38,63 @@ body {
   align-items: center;
   margin: 0;
   padding: 0;
-  background-color: #2a2a2a;
+  background-color: rgba(0, 0, 0, 0);
   border-radius: var(--border-radius);
   width: fit-content;
   height: var(--container-height);
-  margin-left: auto;
 }
 
-.display-unit {
-  color: white;
+.info-complex {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 0;
-  padding-left: var(--unit-display-padding);
-  padding-right: var(--unit-display-padding);
-  width: fit-content;
-  height: 100%;
+  padding: 0;
+  padding-top: 6px;
+}
+
+.info-sub-complex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-size: small;
+}
+
+.color-bar {
+  width: 5px;
+  height: 20px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.avatar-image {
+  margin-top: 7px;
   border-radius: var(--border-radius);
 }
 
-.non-icon-unit {
-  min-width: 40px;
+.row-element {
+  margin-right: 6px;
+  margin-top: 4px;
 }
 
-.icon-unit {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.white {
-  background-color: white;
-  color: #2a2a2a;
-}
-
-.small-title {
-  font-size: 6px;
-}
-
-.horizontal-text {
-  display: flex;
-  flex-direction: row;
-  align-items: end;
-}
-
-.section-title {
+.column-element {
   margin-bottom: 1px;
 }
 
-.number-deco-text {
-  margin-bottom: 3px;
-}
-
-.hide {
-  display: none;
+.difficulty-pill {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  margin-right: 5px;
+  padding: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 5px;
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  font-size: small;
 }
