@@ -1,0 +1,12 @@
+game-overlay
+game-overlay/*
+tosu.exe
+tsosu.env
+logs
+logs/*.*
+settings/
+settings/*.*
+static/BTMC-Overlay by Happy_24
+static/InGame2 by Dartandr
+settings
+settings/__ingame__.values.json
