@@ -1,7 +1,7 @@
 Usecase: ingame
-Name:  FutureTense ppOverlay
+Name:  FutureTense BeatmapInfo Overlay
 Author:  kimsseTheWolf
 CompatibleWith:  tosu
 Resolution:  ## Width x Height
 authorLinks:  ## Specify links via comma
-Notes: ## some markdown text
+Notes: A simple beatmap info overlay
