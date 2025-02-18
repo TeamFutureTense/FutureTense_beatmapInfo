@@ -1,4 +1,4 @@
-name: Release theCounter Package
+name: Release BeatmaInfo Package
 
 on:
   push:
@@ -14,16 +14,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Archive theCounter folder
+      - name: Archive BeatmapInfo folder
         run: |
           mkdir -p release
-          zip -r release/theCounter.zip static/theCounter
+          zip -r release/beatmapInfo.zip static/beatmapInfo
 
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          files: release/theCounter.zip
+          files: release/beatmapInfo.zip
           token: ${{ secrets.PAT_TOKEN }}
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
