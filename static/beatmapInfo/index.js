@@ -17,33 +17,35 @@ const animDuration = 125;
 
 let isTransitionAnimationPlaying = false;
 
-function ingameFadeOut(callback) {
+function fadeOut(target, callback) {
   if (!isTransitionAnimationPlaying) {
     isTransitionAnimationPlaying = true;
     anime({
-      targets: '#ingame',
+      targets:"#" + target,
       opacity: 0,
       duration: animDuration,
       easing: 'easeOutQuad',
       complete: function() {
+        console.log("Target: ", target)
         isTransitionAnimationPlaying = false;
-        document.getElementById('ingame').classList.add("hide");
+        document.getElementById(target).classList.add("hide");
         if (callback) callback();
       }
     });
   }
 }
 
-function ingameFadeIn(callback) {
+function fadeIn(target, callback) {
   if (!isTransitionAnimationPlaying) {
     isTransitionAnimationPlaying = true;
-    document.getElementById('ingame').classList.remove("hide");
+    document.getElementById(target).classList.remove("hide");
     anime({
-      targets: '#ingame',
+      targets: "#" + target,
       opacity: 1,
       duration: animDuration,
       easing: 'easeOutQuad',
       complete: function() {
+        console.log("Target: ", target)
         isTransitionAnimationPlaying = false;
         if (callback) callback();
       }
@@ -59,11 +61,14 @@ function formatTime(ms) {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
+let startToSwitch = false;
+let isFinishedSwitching = false;
+let isTransitionLocked = false; // 锁变量
+
 // receive message update from websocket
 socket.api_v2(({ state, beatmap, profile }) => {
   try {
     if (state.name === "play") {
-      ingameFadeIn();
       // get data
       cache.name = beatmap.title;
       cache.difficulty = beatmap.stats.stars.total;
@@ -77,11 +82,33 @@ socket.api_v2(({ state, beatmap, profile }) => {
       document.getElementById("starRating").innerText = cache.difficulty;
       document.getElementById("diffName").innerText = cache.diffName;
       document.getElementById("length").innerText = formatTime(cache.length);
-      // display overlay
-    }
-    else {
+      
+      // display ingame and songInfo for 3 seconds, then switch to beatmapInfo
+      if (!isTransitionLocked) {
+        isTransitionLocked = true; // lock animation
+        fadeIn('ingame', () => {
+          fadeIn('songInfo', () => {
+            setTimeout(() => {
+              fadeOut('songInfo', () => {
+                document.getElementById("songInfo").classList.add("hide");
+                fadeIn('beatmapInfo', () => {
+                  isTransitionLocked = true; // lock animation
+                });
+              });
+            }, 3000);
+          });
+        });
+      }
+    } else {
       // hide overlay
-      ingameFadeOut();
+      fadeOut('ingame', () => {
+        document.getElementById("beatmapInfo").classList.add("hide");
+        document.getElementById("songInfo").classList.remove("hide");
+        startToSwitch = false;
+        isFinishedSwitching = false;
+        isTransitionLocked = false; // reset lock
+        console.log("Info display style reset!");
+      });
     }
   } catch (error) {
     console.log(error);

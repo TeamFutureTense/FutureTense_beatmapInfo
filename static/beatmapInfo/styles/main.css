@@ -32,6 +32,10 @@ body {
   font-family: 'octarine';
 }
 
+.hide {
+  display: none !important;
+}
+
 .main-container {
   display: flex;
   flex-direction: row;
