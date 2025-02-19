@@ -5,16 +5,28 @@ const socket = new WebSocketManager('127.0.0.1:24050');
 
 // cache values here to prevent constant updating
 const cache = {
-  h100: -1,
-  h50: -1,
-  h0: -1,
-  accuracy: -1,
+  name: "Unknown",
+  difficulty: 0,
+  length: 0,
+  diffName: "Unknown diff"
 };
 
 // receive message update from websocket
-socket.api_v2(({ play, state, performance, resultsScreen }) => {
+socket.api_v2(({ play, state, performance, resultsScreen, beatmap }) => {
   try {
-    // contents goes here
+    if (state.name === "") {
+      // get data
+      cache.name = beatmap.title;
+      cache.difficulty = beatmap.stats.stars.total;
+      cache.length = beatmap.time.live;
+      
+      // set styles
+
+      // display overlay
+    }
+    else {
+      // hide overlay
+    }
   } catch (error) {
     console.log(error);
   }
