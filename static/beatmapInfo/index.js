@@ -13,6 +13,44 @@ const cache = {
   userid: ""
 };
 
+const animDuration = 125;
+
+let isTransitionAnimationPlaying = false;
+
+function ingameFadeOut(callback) {
+  if (!isTransitionAnimationPlaying) {
+    isTransitionAnimationPlaying = true;
+    anime({
+      targets: '#ingame',
+      opacity: 0,
+      duration: animDuration,
+      easing: 'easeOutQuad',
+      complete: function() {
+        isTransitionAnimationPlaying = false;
+        document.getElementById('ingame').classList.add("hide");
+        if (callback) callback();
+      }
+    });
+  }
+}
+
+function ingameFadeIn(callback) {
+  if (!isTransitionAnimationPlaying) {
+    isTransitionAnimationPlaying = true;
+    document.getElementById('ingame').classList.remove("hide");
+    anime({
+      targets: '#ingame',
+      opacity: 1,
+      duration: animDuration,
+      easing: 'easeOutQuad',
+      complete: function() {
+        isTransitionAnimationPlaying = false;
+        if (callback) callback();
+      }
+    });
+  }
+}
+
 function formatTime(ms) {
   const totalSeconds = Math.floor(ms / 1000);
   const minutes = Math.floor(totalSeconds / 60);
@@ -25,6 +63,7 @@ function formatTime(ms) {
 socket.api_v2(({ state, beatmap, profile }) => {
   try {
     if (state.name === "play") {
+      ingameFadeIn();
       // get data
       cache.name = beatmap.title;
       cache.difficulty = beatmap.stats.stars.total;
@@ -42,6 +81,7 @@ socket.api_v2(({ state, beatmap, profile }) => {
     }
     else {
       // hide overlay
+      ingameFadeOut();
     }
   } catch (error) {
     console.log(error);
